@@ -70,7 +70,7 @@ function start(){
 			// Logically separating updating and drawing
 			game.checkPaused();
 			game.checkLines();
-			game.checkLoss();
+			//game.checkLoss();
 			game.draw();
 		}, 1000/60);
 	}

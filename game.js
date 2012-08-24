@@ -57,7 +57,6 @@ Game.prototype.init = function(){
 			board[cols-1][y].setLocation(cols-1,y);
 		}
 
-		//top + bottom borders
 		for (var x=0; x<cols; x++){
 			board[x][0]= new BorderSq();
 			board[x][rows-1]=new BorderSq();
@@ -203,15 +202,22 @@ Game.prototype.checkLines=function() {
 				numFull++;
 			} 
 		}
+		if (numFull>15){
+			console.log('numFull at '+j+'='+numFull)
+		}
 		if (numFull===cols-2){
 			this.scoreCounter = this.scoreCounter + 10;
 			//move it on down
-			for (var p=j; p>1; p--){
+			//for all the rows moving up above the complete one
+			for (var p=j; p>0; p--){
+				//cols
 				for (var q=1; q<cols-1; q++){
-					board[q][p]=undefined;
+					board[q][p] = undefined
+					//board[q][p] = new StuckSquare('white')
 					board[q][p] = board[q][p-1]
 					if (board[q][p]!==undefined){
-						board[q][p].setLocation(q,p);
+					 	board[q][p].setLocation(q,p);
+					 	board[q][p].draw();
 					}
 				}
 			}

@@ -61,7 +61,6 @@ Piece.prototype.checkValidDown=function() {
 Piece.prototype.checkValidLeft=function() {
 	for (var i=0; i<4; i++){
 		if (board[this.sqArray[i][0]-1][this.sqArray[i][1]]!==undefined){
-			console.log(i)
 			return false
 		}
 	}
