@@ -69,9 +69,11 @@ function start(){
 		game_loop = setInterval(function(){
 			// Logically separating updating and drawing
 			game.checkPaused();
-			game.checkLines();
+			if (go){
+				game.checkLines();
+				game.draw();
+			}
 			//game.checkLoss();
-			game.draw();
 		}, 1000/60);
 	}
 	else{

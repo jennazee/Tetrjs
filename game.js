@@ -160,11 +160,6 @@ Game.prototype.draw=function() {
 	}
 }
 
-//cycles through the board array to see if everything is gone
-// Game.prototype.checkLoss=function() {
-// 	if currPiece
-// }
-
 function pieceFactory() {
 	switch (Math.floor(Math.random()*7)){
 
@@ -202,23 +197,24 @@ Game.prototype.checkLines=function() {
 				numFull++;
 			} 
 		}
-		if (numFull>15){
-			console.log('numFull at '+j+'='+numFull)
-		}
 		if (numFull===cols-2){
 			this.scoreCounter = this.scoreCounter + 10;
 			//move it on down
 			//for all the rows moving up above the complete one
-			for (var p=j; p>0; p--){
+			//
+			//P.S. board[col][row], or board[x][y]
+			for (var p=j; p>2; p--){
 				//cols
 				for (var q=1; q<cols-1; q++){
 					board[q][p] = undefined
 					//board[q][p] = new StuckSquare('white')
+					console.log('PRE: '+q+','+p+': '+board[q][p])
 					board[q][p] = board[q][p-1]
 					if (board[q][p]!==undefined){
 					 	board[q][p].setLocation(q,p);
 					 	board[q][p].draw();
 					}
+					console.log('POST: '+q+','+p+': '+board[q][p])
 				}
 			}
 		}
