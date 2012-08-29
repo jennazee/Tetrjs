@@ -187,6 +187,7 @@ function pieceFactory() {
 }
 
 Game.prototype.checkLines=function() {
+	var numCleared=0;
 	for (var j=rows-2; j>0; j--) {
 		var numFull = 0;
 		for (var i=1; i<cols-1; i++){
@@ -198,7 +199,8 @@ Game.prototype.checkLines=function() {
 			} 
 		}
 		if (numFull===cols-2){
-			this.scoreCounter = this.scoreCounter + 10;
+			numCleared++;
+			console.log(numCleared)
 			//move it on down
 			//for all the rows moving up above the complete one
 			//
@@ -206,16 +208,21 @@ Game.prototype.checkLines=function() {
 			for (var p=j; p>2; p--){
 				//cols
 				for (var q=1; q<cols-1; q++){
-					board[q][p] = undefined
-					//board[q][p] = new StuckSquare('white')
-					console.log('PRE: '+q+','+p+': '+board[q][p])
 					board[q][p] = board[q][p-1]
 					if (board[q][p]!==undefined){
+						board[q][p] = new StuckSquare('white')
 					 	board[q][p].setLocation(q,p);
-					 	board[q][p].draw();
 					}
-					console.log('POST: '+q+','+p+': '+board[q][p])
 				}
+			}
+			if (numCleared === 4) {
+				this.scoreCounter = this.scoreCounter + 100;
+			}
+			else if (numCleared > 0){
+				this.scoreCounter = this.scoreCounter + 10*numCleared;
+			}
+			else {
+				return;
 			}
 		}
 	}
