@@ -1,6 +1,7 @@
 function TPiece() {
  	Piece.call(this);
  	this.color = 'turquoise';
+ 	this.game=game;
  	
  	var sqArray = Array();
 	var layoutArray = Array();
@@ -26,6 +27,6 @@ function TPiece() {
 
  }
  
-TPiece.prototype = new Piece();
+TPiece.prototype = new Piece(this.game);
 
 TPiece.prototype.constructor = TPiece;

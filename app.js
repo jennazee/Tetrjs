@@ -55,8 +55,23 @@ function App() {
 	$('#mainCanvas').click(function(e){
 		var x = e.pageX-$('#mainCanvas').offset().left;
 		var y = e.pageY-$('#mainCanvas').offset().top;
-		if (x >= 50 && x<50+300 && y>= 175 && y<=175+150 && !go){
-			go = true;		
+		if (x >= 50 && x<50+300 && y>= 175 && y<=175+150){
+			if (fresh){
+				fresh = false;
+			}
+			if (!go){
+				go = true;
+			}
+			if (lost) {
+				clearInterval(game_loop);
+	  			var canvas = $('#mainCanvas');
+				canvas.attr('width', canvas.width()); 
+				canvas.attr('height', canvas.height());
+	  			game_loop = start();
+	  			lost = false
+	  			go = false;
+	  			fresh = true;
+			}
 		}
 	});
 }
@@ -67,14 +82,11 @@ function start(){
 	if(game.init()){
 		// Set up game loop to display new frames at a fixed rate
 		game_loop = setInterval(function(){
-			// Logically separating updating and drawing
-			game.checkPaused();
-			if (go){
-				game.checkLines();
-				game.draw();
+			game.draw();
+			if(go){
+				currPiece.moveDown()
 			}
-			//game.checkLoss();
-		}, 1000/60);
+		}, 1000);
 	}
 	else{
 		alert('You lack a browser able to run HTML5');

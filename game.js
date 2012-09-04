@@ -4,16 +4,11 @@ function Game() {
 	//variables that change based on game state
 	this.scoreCounter = 0;
 	this.dialog = new Dialog();
-
-	setInterval(function(){
-		if (go){
-			inProgress = true;
-			currPiece.moveDown();
-		}
-	}, 1000);
 }
 
 var go = false;
+var lost = false;
+var fresh = true;
 
 var rows;
 var cols;
@@ -22,12 +17,11 @@ var panelWidth;
 var scorePanelHeight = 60;
 var gamePanelHeight;
 var currPiece;
-var inProgress = false;
 
 var board = Array();
 
 Game.prototype.init = function(){
-	currPiece = pieceFactory();
+	currPiece = this.pieceFactory(this);
 	var canvas = $('#mainCanvas')[0];
   	if(canvas.getContext){
     	/* This is the 2d rendering context you will be drawing on. */
@@ -64,7 +58,7 @@ Game.prototype.init = function(){
 			board[x][rows-1].setLocation(x, rows-1);
 		}
 
-		currPiece.setLocation(10,1);
+		currPiece.setLocation(9,1);
 
 		for (var r=0; r<rows; r++){
 			for (var c=0; c<cols; c++){
@@ -98,44 +92,12 @@ Game.prototype.init = function(){
 	return false;
 }
 
-Game.prototype.checkPaused=function(){
-	if (!go && inProgress){
-		//game panel
-		this.ctx.fillStyle = '#191919';
-		this.ctx.fillRect(0, 0, panelWidth, gamePanelHeight);
-
-		for (var r=0; r<rows; r++){
-			for (var c=0; c<cols; c++){
-				if (board[c][r]){
-					board[c][r].draw()
-				}
-			}
-		}
-
-		//score panel
-		this.ctx.fillStyle = '#333333';
-		this.ctx.fillRect(0, gamePanelHeight, panelWidth, scorePanelHeight);
-		this.ctx.font = '30px Century Gothic'
-		this.ctx.fillStyle = '#FF3333';
-		this.ctx.fillText('Score: '+ this.scoreCounter, 20, gamePanelHeight+40, panelWidth-20);
-		this.ctx.fillStyle = '00CCCC';
-
-		currPiece.draw();
-
-		//paused dialog
-		this.ctx.fillStyle= this.dialog.color;
-		this.ctx.fillRect(this.dialog.x, this.dialog.y, this.dialog.width, this.dialog.height);
-		this.ctx.fillStyle = 'Black';
-		this.ctx.font = '22px Century Gothic, Calibri';
-		this.ctx.fillText('Game Paused.', this.dialog.x + 65, this.dialog.y+80, 280);
-	}
-}
-
 //DRAWING updates
 Game.prototype.draw=function() {
 	var canvas = $('#mainCanvas')[0];
 
 	if (go){
+		console.log('draw go')
 		//game panel
 		this.ctx.fillStyle = '#191919';
 		this.ctx.fillRect(0, 0, panelWidth, gamePanelHeight);
@@ -158,31 +120,55 @@ Game.prototype.draw=function() {
 
 		currPiece.draw();
 	}
-}
 
-function pieceFactory() {
+	else {
+		console.log('else')
+		 if(!lost && !fresh){
+			//paused dialog
+			console.log('draw pause')
+			this.ctx.fillStyle= this.dialog.color;
+			this.ctx.fillRect(this.dialog.x, this.dialog.y, this.dialog.width, this.dialog.height);
+			this.ctx.fillStyle = 'Black';
+			this.ctx.font = '22px Century Gothic, Calibri';
+			this.ctx.fillText('Game Paused.', this.dialog.x + 65, this.dialog.y+80, 280);
+		}
+
+		else if (lost && !fresh) {
+			console.log('draw lost')
+			this.ctx.fillStyle= this.dialog.color;
+			this.ctx.fillRect(this.dialog.x, this.dialog.y, this.dialog.width, this.dialog.height);
+			this.ctx.fillStyle = 'Black';
+			this.ctx.font = '22px Century Gothic, Calibri';
+			this.ctx.fillText('Sorry Bro. Game Over.', this.dialog.x + 30, this.dialog.y+70, 280);
+			this.ctx.font = '14px Century Gothic, Calibri';
+			this.ctx.fillText('Click to start a new game.', this.dialog.x + 55, this.dialog.y+95, 230);
+			return;
+		}
+	}	
+}
+Game.prototype.pieceFactory=function(game) {
 	switch (Math.floor(Math.random()*7)){
 
 		case 0:
-			return new IPiece();
+			return new IPiece(game);
 
 		case 1:
-			return new JPiece();
+			return new JPiece(game);
 
 		case 2:
-			return new LPiece();
+			return new LPiece(game);
 
 		case 3:
-			return new OPiece();
+			return new OPiece(game);
 
 		case 4:
-			return new SPiece();
+			return new SPiece(game);
 
 		case 5:
-			return new TPiece();
+			return new TPiece(game);
 
 		case 6:
-			return new ZPiece();
+			return new ZPiece(game);
 	}
 }
 
@@ -231,16 +217,9 @@ Game.prototype.checkLines=function() {
 Game.prototype.checkLoss=function() {
 	for (s=0;s<4;s++){
 		if (board[currPiece.sqArray[s][0]][currPiece.sqArray[s][1]]!==undefined){
-			go=false;
-			inProgress = false;
-
-			//paused dialog
-			this.ctx.fillStyle= this.dialog.color;
-			this.ctx.fillRect(this.dialog.x, this.dialog.y, this.dialog.width, this.dialog.height);
-			this.ctx.fillStyle = 'Black';
-			this.ctx.font = '22px Century Gothic, Calibri';
-			this.ctx.fillText('Sorry Bro. Game Over.', this.dialog.x + 25, this.dialog.y+80, 280);
+			go = false;
+			lost = true;
+			this.draw()
 		}
-
 	}
 }

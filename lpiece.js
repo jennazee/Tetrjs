@@ -1,6 +1,7 @@
-function LPiece() {
+function LPiece(game) {
  	Piece.call(this);
  	this.color = '#f39';
+ 	this.game=game;
 
  	var sqArray = Array();
 	var layoutArray = Array();
@@ -26,6 +27,6 @@ function LPiece() {
 
  }
  
-LPiece.prototype = new Piece();
+LPiece.prototype = new Piece(this.game);
 
 LPiece.prototype.constructor = LPiece;

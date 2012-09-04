@@ -1,6 +1,7 @@
 function ZPiece() {
  	Piece.call(this);
  	this.color = '#f80';
+ 	this.game=game;
 
  	var sqArray = Array();
 	var layoutArray = Array();
@@ -26,6 +27,6 @@ function ZPiece() {
 
  }
  
-ZPiece.prototype = new Piece();
+ZPiece.prototype = new Piece(this.game);
 
 ZPiece.prototype.constructor = ZPiece;

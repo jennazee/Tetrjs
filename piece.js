@@ -1,5 +1,6 @@
-function Piece(){
+function Piece(game){
 	this.width = 20;
+	this.game = game;
 
 	var sqArray = Array();
 	var layoutArray = Array();
@@ -100,6 +101,9 @@ Piece.prototype.moveDown= function(array) {
 	else {
 		this.stick();
 	}
+	this.game.draw();
+	this.game.checkLoss();
+	this.game.checkLines();
 };
 
 Piece.prototype.moveLeft=function() {
@@ -109,6 +113,7 @@ Piece.prototype.moveLeft=function() {
 			this.sqArray[i][0]--
 		}
 	}
+	this.game.draw();
 };
 
 Piece.prototype.moveRight=function() {
@@ -118,12 +123,14 @@ Piece.prototype.moveRight=function() {
 			this.sqArray[i][0]++
 		}
 	}
+	this.game.draw();
 };
 
 Piece.prototype.drop=function(){
 	while (this.checkValidDown()){
 		this.moveDown();
 	}
+	this.game.draw();
 }
 
 Piece.prototype.rotate=function() {
@@ -149,6 +156,7 @@ Piece.prototype.rotate=function() {
 		this.sqArray[3][0] = this.sqArray[2][0]-this.sqArray[2][1] + oldy3;
 		this.sqArray[3][1] = this.sqArray[2][0]+this.sqArray[2][1] - oldx3;
 	}
+	this.game.draw();
 };
 
 Piece.prototype.setLocation=function(x, y) {
@@ -156,6 +164,7 @@ Piece.prototype.setLocation=function(x, y) {
 		this.sqArray[i][0]=this.layoutArray[i][0]+x;
 		this.sqArray[i][1]=this.layoutArray[i][1]+y;
 	}
+	this.game.draw();
 };
 
 Piece.prototype.stick=function(){
@@ -163,6 +172,9 @@ Piece.prototype.stick=function(){
 		board[this.sqArray[i][0]][this.sqArray[i][1]]= new StuckSquare(this.color);
 		board[this.sqArray[i][0]][this.sqArray[i][1]].setLocation(this.sqArray[i][0], this.sqArray[i][1]);
 	}
-	currPiece = new pieceFactory();
-	currPiece.setLocation(10,1);
+	currPiece = new this.game.pieceFactory(this.game);
+	if (!lost){	
+		currPiece.setLocation(9,1);
+		this.game.draw();
+	}
 }

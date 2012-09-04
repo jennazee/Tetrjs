@@ -1,6 +1,7 @@
-function JPiece() {
+function JPiece(game) {
  	Piece.call(this);
  	this.color = 'gold';
+ 	this.game = game;
 
  	var sqArray = Array();
 	var layoutArray = Array();
@@ -26,6 +27,6 @@ function JPiece() {
 
  }
  
-JPiece.prototype = new Piece();
+JPiece.prototype = new Piece(this.game);
 
 JPiece.prototype.constructor = JPiece;

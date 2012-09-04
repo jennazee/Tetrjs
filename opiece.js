@@ -1,5 +1,6 @@
-function OPiece() {
+function OPiece(game) {
  	Piece.call(this);
+ 	this.game = game
  	this.color = '#b650ff';
 
  	var sqArray = Array();
@@ -26,6 +27,6 @@ function OPiece() {
 
  }
  
-OPiece.prototype = new Piece();
+OPiece.prototype = new Piece(this.game);
 
 OPiece.prototype.constructor = OPiece;

@@ -1,6 +1,7 @@
-function SPiece() {
+function SPiece(game) {
  	Piece.call(this);
  	this.color = '#CCFF00';
+ 	this.game=game;
 
  	var sqArray = Array();
 	var layoutArray = Array();
