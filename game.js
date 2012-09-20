@@ -97,7 +97,6 @@ Game.prototype.draw=function() {
 	var canvas = $('#mainCanvas')[0];
 
 	if (go){
-		console.log('draw go')
 		//game panel
 		this.ctx.fillStyle = '#191919';
 		this.ctx.fillRect(0, 0, panelWidth, gamePanelHeight);
@@ -122,11 +121,9 @@ Game.prototype.draw=function() {
 	}
 
 	else {
-		console.log('else')
 		 if(!lost && !fresh){
 			//paused dialog
-			console.log('draw pause')
-			this.ctx.fillStyle= this.dialog.color;
+ 			this.ctx.fillStyle= this.dialog.color;
 			this.ctx.fillRect(this.dialog.x, this.dialog.y, this.dialog.width, this.dialog.height);
 			this.ctx.fillStyle = 'Black';
 			this.ctx.font = '22px Century Gothic, Calibri';
@@ -134,7 +131,6 @@ Game.prototype.draw=function() {
 		}
 
 		else if (lost && !fresh) {
-			console.log('draw lost')
 			this.ctx.fillStyle= this.dialog.color;
 			this.ctx.fillRect(this.dialog.x, this.dialog.y, this.dialog.width, this.dialog.height);
 			this.ctx.fillStyle = 'Black';
@@ -186,7 +182,6 @@ Game.prototype.checkLines=function() {
 		}
 		if (numFull===cols-2){
 			numCleared++;
-			console.log(numCleared)
 			//move it on down
 			//for all the rows moving up above the complete one
 			//
@@ -196,11 +191,13 @@ Game.prototype.checkLines=function() {
 				for (var q=1; q<cols-1; q++){
 					board[q][p] = board[q][p-1]
 					if (board[q][p]!==undefined){
-						board[q][p] = new StuckSquare('white')
+						//board[q][p] = new StuckSquare('white')
 					 	board[q][p].setLocation(q,p);
+					 	this.draw();
 					}
 				}
 			}
+			console.log(numCleared)
 			if (numCleared === 4) {
 				this.scoreCounter = this.scoreCounter + 100;
 			}

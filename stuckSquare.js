@@ -22,6 +22,6 @@ StuckSquare.prototype.draw = function(){
 };
 
 StuckSquare.prototype.setLocation=function(x, y) {
-	this.sqArray[0][0]=this.sqArray[0][0]+x;
-	this.sqArray[0][1]=this.sqArray[0][1]+y;
+	this.sqArray[0][0]=x;
+	this.sqArray[0][1]=y;
 };
