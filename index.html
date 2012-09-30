@@ -4,6 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Tetris</title>
+  		<link rel="stylesheet" type="text/css" href="../jennazeigen.com/jennazeigen.com/games.css" />
 		
 		<script src='jquery.js' type='text/javascript'></script>
 
@@ -25,7 +26,15 @@
 	</head>
 
 	<body>
-		<canvas id='mainCanvas' width="400" height ='660'>Sorry, bro. Your browser doesn't support the canvas element.</canvas>
+		<header>
+			<h1>Tetrjs!</h1>
+			<p><strong>What's special about this version?: </strong>Nothing really. Line clear = 10 points, Tetris = 100 point bonus. Back-to-back Tetris = 500 point bonus</p>
+			<p><strong>Coming potential special attractions: </strong>Gravity! Party squares! Other special point bonuses!</p>
+			<p>If you find a bug, let me know please!</p>
+		</header>
+		<div id='canvasHolder'>
+			<canvas id='mainCanvas' width="400" height ='660'>Sorry, bro. Your browser doesn't support the canvas element.</canvas>
+		</div>
 	</body>
 
 </html>

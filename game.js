@@ -9,6 +9,7 @@ function Game() {
 var go = false;
 var lost = false;
 var fresh = true;
+var tetris = false;
 
 var rows;
 var cols;
@@ -170,7 +171,7 @@ Game.prototype.pieceFactory=function(game) {
 
 Game.prototype.checkLines=function() {
 	var numCleared=0;
-	for (var j=rows-2; j>0; j--) {
+	for (var j=1; j<rows-1; j++) {
 		var numFull = 0;
 		for (var i=1; i<cols-1; i++){
 			if (board[i][j]===undefined){
@@ -182,30 +183,27 @@ Game.prototype.checkLines=function() {
 		}
 		if (numFull===cols-2){
 			numCleared++;
-			//move it on down
-			//for all the rows moving up above the complete one
-			//
-			//P.S. board[col][row], or board[x][y]
 			for (var p=j; p>2; p--){
 				//cols
 				for (var q=1; q<cols-1; q++){
 					board[q][p] = board[q][p-1]
 					if (board[q][p]!==undefined){
-						//board[q][p] = new StuckSquare('white')
 					 	board[q][p].setLocation(q,p);
 					 	this.draw();
 					}
 				}
 			}
-			console.log(numCleared)
-			if (numCleared === 4) {
+			this.scoreCounter = this.scoreCounter + 10;
+			//we want a bonus of 100 points, plus the regular line clearing points
+			if (numCleared === 4 && !tetris) {
 				this.scoreCounter = this.scoreCounter + 100;
+				tetris = true;
 			}
-			else if (numCleared > 0){
-				this.scoreCounter = this.scoreCounter + 10*numCleared;
+			if (numCleared === 4 && tetris) {
+				this.scoreCounter = this.scoreCounter + 500;
 			}
 			else {
-				return;
+				tetris = false;
 			}
 		}
 	}
