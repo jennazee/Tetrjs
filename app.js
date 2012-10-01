@@ -76,23 +76,66 @@ function App() {
 	});
 }
 
-function start(){
+function setDeceleratingTimeout(callback, factor, times) {
+
+	var internalCallback = function( t, counter ){
+    	return function(){
+    		if ( --t > 0 ) {
+        		window.setTimeout(internalCallback, ++counter * factor );
+        		callback();
+      		}
+    	}
+  	}(times, 0);
+
+  	window.setTimeout(internalCallback, factor );
+};
+
+function start() {
 	game = new Game();
 	var game_loop;
-	if(game.init()){
-		// Set up game loop to display new frames at a fixed rate
-		game_loop = setInterval(function(){
-			game.draw();
-			if(go){
-				currPiece.moveDown()
-			}
-		}, 1000);
-	}
-	else{
+
+	var play = function(){
+		console.log('playing');
+		console.log('go = ' + go)
+    	game.draw();
+    	console.log('post draw()')
+    		console.log('in if go')
+       		setTimeout(play, speediness);
+       		if (go) {
+       				currPiece.moveDown();
+       			}
+      	
+  	};
+
+  	if (game.init()){
+  		console.log('init')
+  		game_loop = setTimeout(play, speediness);
+  	}
+
+  	else {
 		alert('You lack a browser able to run HTML5');
 	}
+	console.log('here')
 	return game_loop;
-}
+};
+
+// function start(){
+// 	game = new Game();
+// 	var game_loop;
+// 	if(game.init()){
+// 		// Set up game loop to display new frames at a fixed rate
+// 		game_loop = setInterval(function(){
+// 			game.draw();
+// 			if(go){
+// 				currPiece.moveDown()
+// 			}
+// 		}, 1000);
+// 	}
+// 	else{
+// 		alert('You lack a browser able to run HTML5');
+// 	}
+// 	return game_loop;
+// }
 
 
 $(document).ready(function(){

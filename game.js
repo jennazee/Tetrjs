@@ -4,6 +4,7 @@ function Game() {
 	//variables that change based on game state
 	this.scoreCounter = 0;
 	this.dialog = new Dialog();
+	this.loop;
 }
 
 var go = false;
@@ -18,6 +19,7 @@ var panelWidth;
 var scorePanelHeight = 60;
 var gamePanelHeight;
 var currPiece;
+var speediness = 1000;
 
 var board = Array();
 
@@ -98,6 +100,7 @@ Game.prototype.draw=function() {
 	var canvas = $('#mainCanvas')[0];
 
 	if (go){
+		console.log('go draw')
 		//game panel
 		this.ctx.fillStyle = '#191919';
 		this.ctx.fillRect(0, 0, panelWidth, gamePanelHeight);
@@ -169,6 +172,7 @@ Game.prototype.pieceFactory=function(game) {
 	}
 }
 
+
 Game.prototype.checkLines=function() {
 	var numCleared=0;
 	for (var j=1; j<rows-1; j++) {
@@ -193,13 +197,17 @@ Game.prototype.checkLines=function() {
 					}
 				}
 			}
+			if (speediness > 100) {
+				speediness = speediness - 50;
+			}
 			this.scoreCounter = this.scoreCounter + 10;
-			//we want a bonus of 100 points, plus the regular line clearing points
+			//one tetris
 			if (numCleared === 4 && !tetris) {
 				this.scoreCounter = this.scoreCounter + 100;
 				tetris = true;
 			}
-			if (numCleared === 4 && tetris) {
+			//back to back tetrises!!!
+			else if (numCleared === 4 && tetris) {
 				this.scoreCounter = this.scoreCounter + 500;
 			}
 			else {
