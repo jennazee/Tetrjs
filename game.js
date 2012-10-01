@@ -4,7 +4,6 @@ function Game() {
 	//variables that change based on game state
 	this.scoreCounter = 0;
 	this.dialog = new Dialog();
-	this.loop;
 }
 
 var go = false;
@@ -100,7 +99,6 @@ Game.prototype.draw=function() {
 	var canvas = $('#mainCanvas')[0];
 
 	if (go){
-		console.log('go draw')
 		//game panel
 		this.ctx.fillStyle = '#191919';
 		this.ctx.fillRect(0, 0, panelWidth, gamePanelHeight);
