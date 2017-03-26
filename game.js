@@ -88,7 +88,7 @@ Game.prototype.init = function(){
 		this.ctx.fillText('Left = J-Key, Right = L-key', this.dialog.x + 35, this.dialog.y+70, 230);
 		this.ctx.fillText('Rotate = K-key, Down = Comma-key', this.dialog.x + 35, this.dialog.y+90, 230);
 		this.ctx.fillText('Drop = Space', this.dialog.x + 35, this.dialog.y+110, 230);
-		this.ctx.fillText('Pause = R-key', this.dialog.x + 35, this.dialog.y+130, 230);
+		this.ctx.fillText('Pause = P-key', this.dialog.x + 35, this.dialog.y+130, 230);
 		return true;
 	}
 	return false;
